@@ -381,7 +381,11 @@ internal class CurlUpdater {
         if output.characters.count > 0 {
             //remove newline character.
             let lastIndex = output.index(before: output.endIndex)
-            return (output[output.startIndex ..< lastIndex], task.terminationStatus)
+            #if swift(>=4)
+                return (String(output[output.startIndex ..< lastIndex]), task.terminationStatus)
+            #else
+                return (output[output.startIndex ..< lastIndex], task.terminationStatus)
+            #endif
         }
         return (output, task.terminationStatus)
     }
